@@ -5,40 +5,49 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Welcome to the Journal Program!");
-        string userInput;
-        int numericInput = 0;
+        int userInput;
+        string fileName;
         Journal userJournal = new Journal();
         PromptGenerator prompt = new PromptGenerator();
 
-        void HandleUserInput(int option)
+        void HandleUserOption(int option)
         {
-            if (option == 1)
+            switch(option) 
             {
-                string randomPrompt = prompt.ChooseRandom();
-                Console.WriteLine(randomPrompt);
-                string answer = Console.ReadLine();
-                userJournal.AddEntry(randomPrompt, answer);
+                case 1:
+                    string randomPrompt = prompt.ChooseRandom();
+                    Console.WriteLine(randomPrompt);
+                    string answer = Console.ReadLine();
+                    userJournal.AddEntry(randomPrompt, answer);
+                    break;
+                case 2:
+                    userJournal.DisplayEntries();
+                    break;
+                case 3:
+                    Console.WriteLine("What is the file name?");
+                    fileName = Console.ReadLine();
+                    userJournal.LoadFile(fileName);
+                    break;
+                case 4:
+                    Console.WriteLine("What is the file name?");
+                    fileName = Console.ReadLine();
+                    userJournal.SaveFile(fileName);
+                    break;
+                case 5:
+                    Console.WriteLine("Thanks for recording your thoughts comments");
+                    break;
+                default:
+                    // this can help cover the case when a user outside the options
+                    Console.WriteLine("Make sure you select an option from 1 to 5");
+                    break;
             }
-            if (option == 2)
-            {
-                userJournal.DisplayEntries();
-            }
-            if (option == 3)
-            {
-                Console.WriteLine("What is the file name?");
-                string fileName = Console.ReadLine();
-                userJournal.LoadFile(fileName);
-            }
-            if (option == 4)
-            {
-                Console.WriteLine("What is the file name?");
-                string fileName = Console.ReadLine();
-                userJournal.SaveFile(fileName);
-            }
-            if (option == 5)
-            {
-                return;
-            }
+        }
+
+        int HandleUserInput()
+        {
+            string stringInput = Console.ReadLine();
+            int numericInput = int.Parse(stringInput);
+            return numericInput;
         }
 
         do
@@ -51,10 +60,9 @@ class Program
             Console.WriteLine("5. Quit");
             Console.Write("What would you like to do? ");
             
-            userInput = Console.ReadLine();
-            numericInput = int.Parse(userInput);
+            userInput = HandleUserInput();
             
-            HandleUserInput(numericInput);
-        } while (numericInput  != 5);
+            HandleUserOption(userInput);
+        } while (userInput  != 5);
     }
 }

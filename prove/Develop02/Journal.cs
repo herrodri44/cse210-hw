@@ -20,6 +20,12 @@ class Journal
 
     public void DisplayEntries()
     {
+        // Quick validation to let the user know if there is nothing to display
+        if (_entries.Count == 0)
+        {
+            Console.WriteLine("No entries to display");
+            return;
+        }
         foreach(Entry entry in _entries)
         {
             Console.WriteLine($"Date: {entry._date} - Prompt: {entry._prompt}");
