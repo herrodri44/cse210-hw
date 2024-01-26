@@ -5,18 +5,51 @@ public class Scripture
 {
     private Reference _reference;
     private List<Word> _words = new List<Word>();
-    private Random randomGenerator = new Random();
+    private Random _randomGenerator = new Random();
+    private string _originalText; 
 
     public Scripture(Reference reference, string text)
     {
         _reference = reference;
+        _originalText = text;
 
+        ConvertTextToList(text);
+    }
+
+    public Scripture(string reference, string text)
+    {
+        _originalText = text;
+        _reference = ConvertStringToReferece(reference);
+        ConvertTextToList(text);
+    }
+
+    private void ConvertTextToList(string text)
+    {
+        _words.Clear();
+        
         List<string> scriptureWords = text.Split(' ').ToList();
         foreach(string wordText in scriptureWords)
         {
             Word newWord = new Word(wordText);
             _words.Add(newWord);
         }
+    }
+
+    private Reference ConvertStringToReferece(string text)
+    {
+        // John 13:34-35
+        string [] split = text.Split(new Char[] { ' ', ':', '-' });
+        string book = split[0];
+        int chapter = int.Parse(split[1]);
+        int verse = int.Parse(split[2]);
+        int endVerse = split.Length == 3 ? 0 : int.Parse(split[3]);
+
+        return new Reference(book, chapter, verse, endVerse);
+    }
+ 
+    public void RestartScripture()
+    {
+        ConvertTextToList(_originalText);
     }
 
     public void HideRandomWords(int wordsToHide)
@@ -36,7 +69,7 @@ public class Scripture
     private void HideWord()
     {
         int hideIndex;
-        hideIndex = randomGenerator.Next(0, _words.Count);
+        hideIndex = _randomGenerator.Next(0, _words.Count);
         bool isHidden = _words[hideIndex].isHidden();
 
         if (!isHidden) 
@@ -63,9 +96,12 @@ public class Scripture
         return _words.All( w => w.isHidden() == true);
     }
     
-    public int GetAmountOfWords()
+    public int GetAmountOfHiddenWords()
     {
-        return _words.Count;
+        List<Word> hiddenWords = _words.Where(w => w.isHidden()).ToList();
+        return hiddenWords.Count;
     }
+
+
 
 }
