@@ -3,12 +3,14 @@ public class Activity
     private string _name;
     private string _description;
     private int _duration;
+    private int _countLog;
 
     public Activity(string name, string description)
     {
         _name = name;
         _description = description;
         _duration = 0;
+        _countLog = 0;
     }
 
     public void DisplayStartingMessage() 
@@ -72,6 +74,16 @@ public class Activity
         DateTime futureTime = currentTime.AddSeconds(_duration);
         
         return futureTime;
+    }
+
+    public void AddToCountLog()
+    {
+        _countLog++;
+    }
+
+    public void DisplayCountLog()
+    {
+        Console.WriteLine($" {_name}:\t{_countLog}");
     }
 
 }

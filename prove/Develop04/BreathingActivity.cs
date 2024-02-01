@@ -19,5 +19,6 @@ public class BreathingActivity : Activity
         }
         
         DisplayEndingMessage();
+        AddToCountLog();
     }
 }

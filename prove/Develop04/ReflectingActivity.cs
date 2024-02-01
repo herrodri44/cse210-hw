@@ -42,6 +42,7 @@ public class ReflectingActivity : Activity
             DisplayQuestion();
         }
         DisplayEndingMessage();
+        AddToCountLog();
     }
 
     public string GetRandomPrompt() 
@@ -63,7 +64,7 @@ public class ReflectingActivity : Activity
         string prompt = GetRandomPrompt();
         Console.WriteLine($" --- {prompt}");
     }
-    
+
     public void DisplayQuestion() 
     {
         string question = GetRandomQuestion();

@@ -37,6 +37,7 @@ public class ListingActivity : Activity
 
         Console.WriteLine($"You listed {list.Count} items!");
         DisplayEndingMessage();
+        AddToCountLog();
     }
     public void GetRandomPrompt()
     {
