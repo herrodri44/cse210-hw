@@ -7,13 +7,13 @@ public class SimpleGoal : Goal
         _isCompleted = false;
     }
     // To use when we load from a file
-    public SimpleGoal(string shortName, string description, int points, bool isComplete) : base(shortName, description, points)
+    public SimpleGoal(string shortName, string description, string points, string isComplete) : base(shortName, description, points)
     {
-        _isCompleted = isComplete;
+        _isCompleted = isComplete == "True";
     }
     public override int RecordEvent() 
     {
-        if (_isCompleted)
+        if (IsComplete())
         {
             Console.WriteLine("You have already completed this goal.");
             return 0;

@@ -11,11 +11,11 @@ public class ChecklistGoal : Goal
         _bonus = bonus;
     }
     // To use when we load from a file
-    public ChecklistGoal(string shortName, string description, int points, int target, int bonus, int amount) : base(shortName, description, points)
+    public ChecklistGoal(string shortName, string description, string points, string bonus, string target , string amount) : base(shortName, description, points)
     {
-        _amountCompleted = amount;
-        _target = target;
-        _bonus = bonus;
+        _amountCompleted = int.Parse(amount);
+        _target = int.Parse(target);
+        _bonus = int.Parse(bonus);
     }
 
     public override int RecordEvent() 

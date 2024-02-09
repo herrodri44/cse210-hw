@@ -12,6 +12,13 @@ public abstract class Goal
             _points = points;
         }
 
+        public Goal(string shortName, string description, string points)
+        {
+            _shortName = shortName;
+            _description = description;
+            _points = int.Parse(points);
+        }
+
         public abstract int RecordEvent();
         public abstract bool IsComplete();
         public virtual string GetDetailsString() 

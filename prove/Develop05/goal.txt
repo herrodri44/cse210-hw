@@ -1,0 +1,5 @@
+Score|0
+SimpleGoal|simple goal 1|desc|100|False
+SimpleGoal|eternal goal 1|desc|20|False
+SimpleGoal|simple goal 2|desc|100|False
+ChecklistGoal|checklist 01|check desc|50|200|3|0

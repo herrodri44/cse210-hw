@@ -1,3 +1,5 @@
+using System.IO; 
+
 public class GoalManager
 {
     private List<Goal> _goalList = new List<Goal>();
@@ -19,7 +21,7 @@ public class GoalManager
             Console.WriteLine("");
             Console.WriteLine("Menu Options:");
             Console.WriteLine("\t1. Create New Goal");
-            Console.WriteLine("\t2. List Gaols");
+            Console.WriteLine("\t2. List Goals");
             Console.WriteLine("\t3. Save Goal");
             Console.WriteLine("\t4. Load Goal");
             Console.WriteLine("\t5. Record Event");
@@ -27,8 +29,11 @@ public class GoalManager
             Console.WriteLine("");
             Console.Write("Select a choice from the menu: ");
             string userInput = Console.ReadLine();
-            userOption = int.Parse(userInput);
-
+            int t = 0;
+            if(int.TryParse(userInput.Trim(), out t)) 
+            {
+                userOption = int.Parse(userInput.Trim());
+            }
             switch (userOption)
             {
                 case 1:
@@ -62,11 +67,8 @@ public class GoalManager
     }
     public void ListGoalNames() 
     {
-        // Lists the names of each of the goals.
-        // used for recording events
-        Console.Write("ListGoalNames...");
         int index = 1;
-        Console.Write("The goals are: ");
+        Console.WriteLine("The goals are: ");
         foreach (Goal goal in _goalList)
         {
             Console.WriteLine($"{index}. {goal.GetGoalName()}");
@@ -83,7 +85,7 @@ public class GoalManager
         // Lists the details of each goal (including the checkbox of whether it is complete).
         // used to list all the goals
         int index = 1;
-        Console.Write("The goals are: ");
+        Console.WriteLine("The goals are: ");
         foreach (Goal goal in _goalList)
         {
             Console.WriteLine($"{index}. {goal.GetDetailsString()}");
@@ -104,23 +106,23 @@ public class GoalManager
         int goalType = int.Parse(goalOption);
 
         Console.WriteLine("");
-        Console.Write("What is the name of your goal?");
+        Console.Write("What is the name of your goal? ");
         string goalName = Console.ReadLine();
-        Console.Write("What is a short description?");
+        Console.Write("What is a short description? ");
         string goalDescription = Console.ReadLine();
-        Console.Write("What is the amount of points associated with this goal?");
+        Console.Write("What is the amount of points associated with this goal? ");
         int goalPoints = int.Parse(Console.ReadLine());
 
         Goal newGoal;
         if (goalType == 3)
         {
-            Console.Write("How many times does this goal need to be accomplished for a bonus?");
+            Console.Write("How many times does this goal need to be accomplished for a bonus? ");
             int goalTarget = int.Parse(Console.ReadLine());
-            Console.Write("What is the bonus for accomplishing it that many times?");
+            Console.Write("What is the bonus for accomplishing it that many times? ");
             int goalBonus = int.Parse(Console.ReadLine());
 
             newGoal = new ChecklistGoal(goalName, goalDescription, goalPoints, goalTarget, goalBonus);
-        } else if (goalType == 3)
+        } else if (goalType == 2)
         {
             newGoal = new EternalGoal(goalName, goalDescription, goalPoints);
         } else 
@@ -133,6 +135,11 @@ public class GoalManager
 
     public void RecordEvent() 
     {
+        if (_goalList.Count == 0)
+        {
+            Console.WriteLine("There are no goals in the list. Please create a goal first to record an event.")
+            return;
+        }
         // Asks the user which goal they have done and then records the event by calling the RecordEvent method on that goal
         ListGoalNames();
         
@@ -141,6 +148,8 @@ public class GoalManager
         string userInput = Console.ReadLine();
         int goalIndex = int.Parse(userInput) - 1;
 
+        Console.WriteLine($"Recording Event for {_goalList[goalIndex].GetGoalName()}");
+
         int pointsObtained = _goalList[goalIndex].RecordEvent();
         _score = _score + pointsObtained;
 
@@ -148,10 +157,55 @@ public class GoalManager
     }
     public void SaveToFile() 
     {
-        Console.Write("SaveToFile... (not implemented)");
+        Console.WriteLine("");
+        Console.Write("What is the filename for the goal file? ");
+        string fileName = Console.ReadLine();
+
+        using (StreamWriter outputFile = new StreamWriter(fileName))
+        {
+            outputFile.WriteLine($"Score|{_score}");
+            foreach (Goal goal in _goalList)
+            {
+                outputFile.WriteLine(goal.GetStringRepresentation());
+            }
+        }
     }
     public void LoadFromFile() 
     {
-        Console.Write("LoadFromFile... (not implemented)");
+        Console.WriteLine("");
+        Console.Write("What is the filename for the goal file? ");
+        string fileName = Console.ReadLine();
+        string[] lines = System.IO.File.ReadAllLines(fileName);
+        int idx = 1;
+        foreach (string line in lines)
+        {
+            string[] parts = line.Split("|");
+            Goal newGoal;
+            switch (parts[0])
+            {
+                case "Score":
+                    _score = int.Parse(parts[1]);
+                    break;
+                case "SimpleGoal":
+                    //  $"SimpleGoal|{_shortName}|{_description}|{_points}|{_isCompleted}";
+                    newGoal = new SimpleGoal(parts[1], parts[2], parts[3], parts[4]);
+                    _goalList.Add(newGoal);
+                    break;
+                case "EternalGoal":
+                    //  $"EternalGoal|{_shortName}|{_description}|{_points}"
+                    newGoal = new EternalGoal(parts[1], parts[2], parts[3]);
+                    _goalList.Add(newGoal);
+                    break;
+                case "ChecklistGoal":
+                    //  $"ChecklistGoal|{_shortName}|{_description}|{_points}|{_bonus}|{_target}|{_amountCompleted}";
+                    newGoal = new ChecklistGoal(parts[1], parts[2], parts[3], parts[4],parts[5],parts[6]);
+                    _goalList.Add(newGoal);
+                    break;
+                default:
+                    Console.WriteLine($"Unable to read line {idx}");
+                    break;
+            }
+            idx++;
+        }
     }
 }
