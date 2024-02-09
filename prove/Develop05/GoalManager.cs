@@ -15,7 +15,7 @@ public class GoalManager
         // This is the "main" function for this class. It is called by Program.cs, and then runs the menu loop.
         int userOption = 0;
 
-        while (userOption != 6)
+        while (userOption != 7)
         {
             DisplayPlayerInfo();
             Console.WriteLine("");
@@ -25,7 +25,8 @@ public class GoalManager
             Console.WriteLine("\t3. Save Goal");
             Console.WriteLine("\t4. Load Goal");
             Console.WriteLine("\t5. Record Event");
-            Console.WriteLine("\t6. Quit");
+            Console.WriteLine("\t6. Remove completed goals");
+            Console.WriteLine("\t7. Quit");
             Console.WriteLine("");
             Console.Write("Select a choice from the menu: ");
             string userInput = Console.ReadLine();
@@ -52,9 +53,12 @@ public class GoalManager
                     RecordEvent();
                     break;
                 case 6:
+                    ClearCompletedGoals();
+                    break;
+                case 7:
                     break;
                 default:
-                    Console.WriteLine("Please select an option from the menu (1-6)");
+                    Console.WriteLine("Please select an option from the menu (1-7)");
                     break;
             }
         }
@@ -132,12 +136,11 @@ public class GoalManager
 
         _goalList.Add(newGoal);
     }
-
     public void RecordEvent() 
     {
         if (_goalList.Count == 0)
         {
-            Console.WriteLine("There are no goals in the list. Please create a goal first to record an event.")
+            Console.WriteLine("There are no goals in the list. Please create a goal first to record an event.");
             return;
         }
         // Asks the user which goal they have done and then records the event by calling the RecordEvent method on that goal
@@ -207,5 +210,11 @@ public class GoalManager
             }
             idx++;
         }
+    }
+
+    public void ClearCompletedGoals()
+    {
+        _goalList.RemoveAll(goal => goal.IsComplete());
+        Console.WriteLine("Completed goals have been removed from the list.");
     }
 }
