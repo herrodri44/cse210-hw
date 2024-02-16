@@ -69,7 +69,52 @@ public class BudgetManager
     public void CreateBudget()
     {
         Console.WriteLine("Creating budget...");
-        _userBudget = new Budget(100);
+        Console.WriteLine("");
+        Console.Write("Enter your initial income: ");
+        string userIncome = Console.ReadLine();
+        double income = int.Parse(userIncome);
+        double balance = double.Parse(userIncome);
+
+        _userBudget = new Budget(income);
+        Console.WriteLine("");
+        char userAddingCategory = 'y';
+
+        while(userAddingCategory == 'y')
+        {
+            Console.Write("Add a category to your budget? (y/n): ");
+            
+            string str = Console.ReadLine();
+            userAddingCategory = str.ToCharArray()[0];
+            if (userAddingCategory == 'y')
+            {
+                Console.WriteLine("Please provide the following information");
+                Console.Write("");
+                Console.Write("Category Name: ");
+                string name = Console.ReadLine();
+                // Console.Write("");
+                Console.Write("Category description: ");
+                string description = Console.ReadLine();
+                // Console.Write("");
+                Console.Write("Amount allocated for this category: ");
+                string amount = Console.ReadLine();
+                double categoryAmount = double.Parse(amount);
+                _userBudget.AddCategory(name, description, categoryAmount);
+                
+                balance = balance - categoryAmount;
+                Console.WriteLine("");
+                if (balance > 0)
+                {
+                    Console.WriteLine($"You still have {balance} in your budget");
+                    Console.WriteLine("If you don't create another category, this will be added to an 'Extras' category.");
+                }
+            }
+        }
+        if (balance > 0)
+        {
+            _userBudget.AddCategory("Extra", "Unplanned expenses", balance);
+        }
+
+        Console.WriteLine("Budget created!");
     }
 
     public void CheckTransactionDetails()

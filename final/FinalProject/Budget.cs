@@ -9,9 +9,10 @@ public class Budget
         _income = income;
     }
 
-    public void AddCategory()
+    public void AddCategory(string name, string description, double amount)
     {
-
+        Category category = new Category(name, description, amount);
+        _categories.Add(category);
     }
 
     public void DisplaySummary()
@@ -19,8 +20,9 @@ public class Budget
         double spent = GetBalance();
 
         Console.WriteLine($"Initial Balance:\t{_income}");
-        Console.WriteLine($"Total spent:\t{spent}");
-        Console.WriteLine($"Total spent:\t{_income - spent}");
+        Console.WriteLine($"Total spent:    \t{spent}");
+        Console.WriteLine($"Total spent:    \t{_income - spent}");
+        // show spending by category
         Console.WriteLine("");
     }
 
@@ -42,10 +44,10 @@ public class Budget
 
     public void AddTransaction()
     {
-        Console.WriteLine("not implemented");
+        Console.WriteLine("not implemented yet");
     }
     public void DisplayTransactionsByCategory()
     {
-        Console.WriteLine("not implemented");
+        Console.WriteLine("not implemented yet");
     }
 }
