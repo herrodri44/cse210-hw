@@ -15,4 +15,8 @@ public class Category : FinancialEntity
     {
         return $"{_name}";
     }
+     public string GetCategoryName()
+    {
+        return _name;
+    }
 }

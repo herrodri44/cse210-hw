@@ -45,10 +45,10 @@ public class BudgetManager
                     _userBudget.DisplaySummary();
                     break;
                 case 3:
-                    _userBudget.AddTransaction();
+                    AddTransaction();
                     break;
                 case 4:
-                    CheckTransactionDetails();
+                    _userBudget.DisplayTransactionsByCategory();
                     break;
                 case 5:
                     SaveBudgetToFile();
@@ -106,6 +106,10 @@ public class BudgetManager
                 {
                     Console.WriteLine($"You still have {balance} in your budget");
                     Console.WriteLine("If you don't create another category, this will be added to an 'Extras' category.");
+                } else 
+                {
+                    Console.WriteLine("Your budget is complete!");
+                    userAddingCategory = 'n';
                 }
             }
         }
@@ -117,16 +121,49 @@ public class BudgetManager
         Console.WriteLine("Budget created!");
     }
 
-    public void CheckTransactionDetails()
+    public void AddTransaction()
     {
-        Console.WriteLine("Check Transaction Details...");
+        Console.WriteLine("");
+        Console.Write("Is this an expense transaction? (y/n): ");
+        string str = Console.ReadLine();
+        char userInput = str.ToCharArray()[0];
+        Transaction userTransaction;
+
+        Console.WriteLine("Indicate the following:");
+        Console.WriteLine("");
+        Console.Write("Name of transaction: ");
+        string name = Console.ReadLine();
+        Console.Write("Description: ");
+        string description = Console.ReadLine();
+        Console.Write("Amount: ");
+        string strAmount = Console.ReadLine();
+        double amount = double.Parse(strAmount);
+
+        if (userInput == 'y')
+        {
+            Console.Write("From the following Categories: ");
+            _userBudget.DisplayCategories();
+            Console.Write("In which Category number would this transaction fit into?: ");
+            string catIndexStr = Console.ReadLine();
+            int catIndex = int.Parse(catIndexStr);
+            var categories = _userBudget.GetCategoryList();
+            string catName = categories[catIndex - 1].GetCategoryName();
+
+            userTransaction = new ExpenseTransaction(name, description, amount, catName);
+        } else 
+        {
+            userTransaction = new IncomeTransaction(name, description, amount);
+        }
+        
+        _userBudget.AddTransaction(userTransaction);
     }
+
     public void SaveBudgetToFile()
     {
-        Console.WriteLine("Check Transaction Details...");
+        _fileManager.SaveToFile(_userBudget);
     }
     public void LoadBudgetFromFile()
     {
-        Console.WriteLine("Check Transaction Details...");
+        _userBudget = _fileManager.LoadFromFile();
     }
 }

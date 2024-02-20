@@ -5,9 +5,11 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Hello Sandbox World!");
-        char[] myValidOptions = {'0','1','2'};
+        double negOne = 1000;
+        double negTwo = -400;
 
-        Console.WriteLine(myValidOptions.Contains('2'));
-        Console.WriteLine(myValidOptions.Contains('F'));
+        Console.WriteLine(negOne);
+        Console.WriteLine(negTwo);
+        Console.WriteLine($"{negOne + negTwo}");
     }
 }
