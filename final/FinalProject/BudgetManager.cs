@@ -42,7 +42,13 @@ public class BudgetManager
                     CreateBudget();
                     break;
                 case 2:
-                    _userBudget.DisplaySummary();
+                    if (_userBudget != null)
+                    {
+                        _userBudget.DisplaySummary();
+                    } else 
+                    {
+                        Console.WriteLine("Please create a budget first");
+                    }
                     break;
                 case 3:
                     AddTransaction();

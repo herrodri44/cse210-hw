@@ -16,7 +16,7 @@ public abstract class Transaction : FinancialEntity
     public abstract string GetStringRepresentation();
     public virtual string GetStringDetails()
     {   
-        return $"{_name}: {_amount} | ({_description}) - {_date}";
+        return $"{_name}: ${_amount} | ({_description}) - {_date}";
     }
 
     public string GetTransactionName()

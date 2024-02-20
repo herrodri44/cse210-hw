@@ -84,13 +84,18 @@ public class Budget
         {
             Console.WriteLine("There are no transactions to show");
         }
-        foreach (ExpenseTransaction item in _transactions)
+        foreach (Transaction item in _transactions)
         {
-            string transactionCategory = item.GetCategoryName();
-            if (String.Equals(transactionCategory, catName))
+            if (item.IsExpense())
             {
-                amountOfTransactions++;
-                item.GetStringDetails();
+                ExpenseTransaction expenseTransaction = (ExpenseTransaction)item;
+                string transactionCategory = expenseTransaction.GetCategoryName();
+                if (String.Equals(transactionCategory, catName))
+                {
+                    amountOfTransactions++;
+                    string details = expenseTransaction.GetStringDetails();
+                    Console.WriteLine($"\t{amountOfTransactions} - {details}");
+                }
             }
         }
         if (amountOfTransactions == 0)

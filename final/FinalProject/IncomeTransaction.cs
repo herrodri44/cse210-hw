@@ -12,6 +12,6 @@ public class IncomeTransaction : Transaction
 
     public override string GetStringRepresentation()
     {
-        return $"IncomeTransaction|{_name}|{_amount}|{_description}|{_date}";
+        return $"IncomeTransaction|{_name}|{_description}|{_amount}|{_date}";
     }
 }

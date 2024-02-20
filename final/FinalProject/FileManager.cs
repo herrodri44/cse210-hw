@@ -43,7 +43,6 @@ public class FileManager
                     newBudget.AddCategory(parts[1], parts[2], categoryAmount);
                     break;
                 case "IncomeTransaction":
-                    //  $"IncomeTransaction|{_name}|{_amount}|{_description}|{_date}"
                     categoryAmount = double.Parse(parts[3]);
                     transaction = new IncomeTransaction(parts[1], parts[2], categoryAmount, parts[4]);
                     newBudget.AddTransaction(transaction);

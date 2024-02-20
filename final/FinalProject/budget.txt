@@ -3,5 +3,5 @@ Category|Rent|Housing|500
 Category|Food|Supermaket stuff|400
 Category|Extra|Unplanned expenses|1100
 ExpenseTransaction|Rent February|rent payment|500|2/20/2024|Rent
-IncomeTransaction|loan|10|service |2/20/2024
+IncomeTransaction|loan|service |10|2/20/2024
 ExpenseTransaction|supermarket purchase|week 1 of the month purchase|230|2/20/2024|Food
